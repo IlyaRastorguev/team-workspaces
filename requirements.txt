@@ -1,0 +1,10 @@
+Django==4.0.3
+djangorestframework==3.13.1
+django-cors-headers==3.10.0
+django-prometheus==2.2.0
+psycopg2-binary==2.9.3
+whitenoise==6.1.0
+
+confluent-kafka==1.8.2
+
+PyYAML==5.3

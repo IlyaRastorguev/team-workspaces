@@ -1,0 +1,2 @@
+projects: handlers.ProjectHandler
+workspaces: handlers.WorkspaceHandler

@@ -1,0 +1,21 @@
+consumer:
+  bootstrap.servers: localhost:9094
+  group.id: manager
+  auto.offset.reset: latest
+  auto.commit.interval.ms: 1000
+  default.topic.config:
+    auto.offset.reset: latest
+  enable.auto.commit: True
+  enable.auto.offset.store: False
+  session.timeout.ms: 6000
+poll_timeout: 0.1
+producer:
+  bootstrap.servers: localhost:9094
+  partitioner: murmur2
+topics:
+  projects:
+    in: toProjects
+    out: fromProjects
+  workspaces:
+    in: toWorkspaces
+    out: fromWorkspaces
