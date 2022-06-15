@@ -26,7 +26,7 @@ class DockerAgent(Agent):
         return run(args, capture_output=True, check=True)
 
     def build_image(self, image_name: str, image_type: str) -> CompletedProcess:
-        return self._execute("docker", "build", f"-fcontainers/{image_type}/Dockerfile", "-t", f"{image_name}", ".")
+        return self._execute("docker", "build", "-f", f"containers/{image_type}/Dockerfile", "-t", f"{image_name}", ".")
 
     def stop_container(self, name: str) -> CompletedProcess:
         return self._execute("docker", "container", "stop", f"{name}")
