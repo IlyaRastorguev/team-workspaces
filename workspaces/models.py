@@ -34,7 +34,6 @@ class Workspace(models.Model):
     )
     project = models.ForeignKey(Project, on_delete=models.PROTECT, null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
-    port = models.IntegerField()
 
     class Meta:
         ordering = ["-created"]

@@ -42,21 +42,22 @@ SECRET_KEY = "django-insecure-cg7@*knyvuq-tqgok@+rkxq8xo+mbhrosl=1^7en!-f0u5m4xe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", "team-workspaces"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "workspaces",
-    "teams",
-    "projects",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "workspaces",
+    "teams",
+    "projects",
 ]
 
 MIDDLEWARE = [

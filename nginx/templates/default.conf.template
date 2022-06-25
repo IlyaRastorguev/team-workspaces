@@ -1,0 +1,39 @@
+map $http_cookie $workspace {
+    default                    "default";
+    "~^workspace=(?<variable>[^;]+)"  $variable;
+}
+
+server {
+    listen       ${PORT};
+    server_name  domain.com;
+    resolver ${RESOLVER} ipv6=off;
+
+    location ~ ^/oss-(.*)/(.+\.(css|js|ico|ttf|wasm|woff)) {
+      set $static_files_host $workspace;
+      proxy_pass      http://$static_files_host:8000;
+    }
+
+    location ~ ^/oss-(.*)/vscode-remote-resource {
+      set $exthentions_host $workspace;
+      proxy_pass         http://$exthentions_host:8000;
+    }
+
+    location ~ ^/oss-(.*)  {
+      set $socket_host $workspace;
+      proxy_pass         http://$socket_host:8000;
+      proxy_http_version 1.1;
+      proxy_set_header   Upgrade websocket;
+      proxy_set_header   Connection upgrade;
+    }
+
+    location ~ ^/ws/(.*)/ {
+      set $workspace_host $workspace;
+      proxy_pass         http://$workspace_host:8000/;
+      proxy_set_header   Host $http_host;
+    }
+
+    location / {
+      proxy_pass         http://team-workspaces:8000;
+      proxy_set_header   Host $http_host;
+    }
+}

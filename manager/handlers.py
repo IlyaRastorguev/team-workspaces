@@ -58,13 +58,18 @@ class ProjectHandler(Handler):
     def _get_project_image_type(self, project: dict) -> str:
         return project.get(ProjectConst.TYPE, {}).get(ProjectTypeConst.KEY)
 
+    def _get_project_repo(self, project: dict) -> str:
+        return project.get(ProjectConst.REPO)
+
     def create(self, message: dict):
         payload = message.get(MessageConst.PAYLOAD)
 
         image_name = self._get_project_image_name(payload)
         image_type = self._get_project_image_type(payload)
 
-        process = self._agent.build_image(image_name, image_type)
+        project_repo = self._get_project_repo(payload)
+
+        process = self._agent.build_image(image_name, image_type, project_repo)
 
         if process.returncode == 0:
             payload = {}

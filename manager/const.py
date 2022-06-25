@@ -34,6 +34,7 @@ class TeamConst:
 
 class ProjectConst:
     ID = "id"
+    NAME = "name"
     STATUS = "status"
     KEY = "key"
     TYPE = "type"

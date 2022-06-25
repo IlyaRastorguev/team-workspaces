@@ -25,8 +25,20 @@ class DockerAgent(Agent):
     def _execute(self, *args) -> CompletedProcess:
         return run(args, capture_output=True, check=True)
 
-    def build_image(self, image_name: str, image_type: str) -> CompletedProcess:
-        return self._execute("docker", "build", "-f", f"containers/{image_type}/Dockerfile", "-t", f"{image_name}", ".")
+    def build_image(self, image_name: str, image_type: str, repo: str) -> CompletedProcess:
+        return self._execute(
+            "docker",
+            "build",
+            "-f",
+            f"containers/{image_type}/Dockerfile",
+            "-t",
+            f"{image_name}",
+            "--build-arg",
+            f"repo={repo}",
+            "--build-arg",
+            f"project_name={image_name}",
+            ".",
+        )
 
     def stop_container(self, name: str) -> CompletedProcess:
         return self._execute("docker", "container", "stop", f"{name}")
@@ -43,6 +55,9 @@ class DockerAgent(Agent):
     def create_container(
         self, image_name: str, container_name: str, exposed_port: int, container_port: int
     ) -> CompletedProcess:
-        return self._execute(
+        self._execute(
             "docker", "create", "-p", f"{exposed_port}:{container_port}", "--name", f"{container_name}", f"{image_name}"
+        )
+        return self._execute(
+            "docker", "network", "connect", "--alias", f"{container_name}", "teams-workspaces", f"{container_name}"
         )
